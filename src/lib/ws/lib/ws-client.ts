@@ -35,7 +35,17 @@ export default class TikTokWsClient extends (WebSocket as TypedWebSocket) {
         protected webSocketPingIntervalMs: number = 10000
     ) {
         const wsHeaders = { ...webSocketHeaders, Cookie: cookieJar.getCookieString(webSocketHeaders) };
-        const wsUrlWithParams = `${wsUrl}?${new URLSearchParams(webSocketParams)}${Config.DEFAULT_WS_CLIENT_PARAMS_APPEND_PARAMETER}`;
+
+        // FIX: Validate wsUrl - sometimes Euler API returns only query params without host
+        let validatedWsUrl = wsUrl;
+        if (!wsUrl || (!wsUrl.startsWith('wss://') && !wsUrl.startsWith('ws://'))) {
+            // Use default WebSocket host if URL is missing or malformed
+            const defaultWsHost = `wss://${Config.TIKTOK_HOST_WS || 'webcast5-ws-useast1a.tiktok.com'}`;
+            validatedWsUrl = defaultWsHost + (wsUrl && wsUrl.startsWith('?') ? '' : '/') + (wsUrl || '');
+            console.warn(`[WS] Fixed malformed wsUrl: ${wsUrl?.slice(0, 50)}... -> ${validatedWsUrl.slice(0, 80)}...`);
+        }
+
+        const wsUrlWithParams = `${validatedWsUrl}?${new URLSearchParams(webSocketParams)}${Config.DEFAULT_WS_CLIENT_PARAMS_APPEND_PARAMETER}`;
         super(
             wsUrlWithParams,
             {
