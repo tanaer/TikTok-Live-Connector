@@ -170,6 +170,7 @@ export const Screen: ScreenPreset = (process.env.RANDOMIZE_TIKTOK_SCREEN?.toLowe
 
 const Config: WebcastConfig = {
     TIKTOK_HOST_WEB: 'www.tiktok.com',
+    TIKTOK_HOST_WS: 'webcast5-ws-useast1a.tiktok.com',
     TIKTOK_HOST_WEBCAST: 'webcast.tiktok.com',
     TIKTOK_HTTP_ORIGIN: 'https://www.tiktok.com',
     DEFAULT_HTTP_CLIENT_COOKIES: { 'tt-target-idc': 'useast1a' },
