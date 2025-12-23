@@ -75,6 +75,7 @@ export type DecodedWebcastPushFrame = WebcastPushFrame & {
 
 export interface WebcastConfig {
     TIKTOK_HOST_WEB: string;
+    TIKTOK_HOST_WS: string;
     TIKTOK_HOST_WEBCAST: string;
     TIKTOK_HTTP_ORIGIN: string;
 
